@@ -1,0 +1,26 @@
+{
+  "name": "@open-commerce/monkey-lang",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marianozunino/monkey-lang.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marianozunino/monkey-lang/issues"
+  },
+  "homepage": "https://github.com/marianozunino/monkey-lang#readme",
+  "devDependencies": {
+    "vitest": "0.31.3"
+  },
+  "dependencies": {
+    "@types/node": "20.2.5"
+  }
+}
