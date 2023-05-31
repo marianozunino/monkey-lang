@@ -1,4 +1,12 @@
-import { Token, TokenType, createToken } from "./token";
+import {
+  Token,
+  TokenType,
+  createToken,
+  isDigit,
+  isLetter,
+  isWhitespace,
+  lookupIdent,
+} from "./token";
 
 export class Lexer {
   private input: string;
@@ -17,6 +25,8 @@ export class Lexer {
   /** @throws {Error} */
   public nextToken(): Token {
     let token: Token;
+
+    this.consumeWhitespace();
 
     switch (this.ch) {
       case "=":
@@ -43,11 +53,20 @@ export class Lexer {
       case "}":
         token = createToken(TokenType.RBrace, this.ch);
         break;
-      case "0":
+      case "\0":
         token = createToken(TokenType.EOF, "");
         break;
       default:
-        break;
+        if (isLetter(this.ch)) {
+          const literal = this.readIdentifier();
+          const type = lookupIdent(literal as keyof typeof TokenType);
+          return createToken(type, literal);
+        } else if (isDigit(this.ch)) {
+          const literal = this.readNumber();
+          return createToken(TokenType.Int, literal);
+        } else {
+          return createToken(TokenType.Illigal, this.ch);
+        }
     }
 
     this.readChar();
@@ -55,13 +74,38 @@ export class Lexer {
     return token;
   }
 
-  private readChar(): void {
-    if (this.readPosition >= this.input.length) {
-      this.ch = "0";
+  private readIdentifier(): string {
+    const startPosition = this.position;
+
+    while (isLetter(this.ch)) {
+      this.readChar();
     }
 
-    this.ch = this.input[this.readPosition];
+    return this.input.substring(startPosition, this.position);
+  }
+
+  private readNumber(): string {
+    const startPosition = this.position;
+    while (isDigit(this.ch)) {
+      this.readChar();
+    }
+    return this.input.substring(startPosition, this.position);
+  }
+
+  private readChar(): void {
+    if (this.readPosition >= this.input.length) {
+      this.ch = "\0";
+    } else {
+      this.ch = this.input[this.readPosition];
+    }
+
     this.position = this.readPosition;
     this.readPosition++;
+  }
+
+  private consumeWhitespace(): void {
+    while (isWhitespace(this.ch)) {
+      this.readChar();
+    }
   }
 }
