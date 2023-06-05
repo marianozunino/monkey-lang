@@ -14,6 +14,8 @@ export const TokenType = {
 
   LT: "<",
   GT: ">",
+  Equal: "==",
+  NotEqual: "!=",
 
   Comma: ",",
   Semicolon: ";",
@@ -25,6 +27,11 @@ export const TokenType = {
 
   Function: "Function",
   Let: "Let",
+  If: "If",
+  Else: "Else",
+  Return: "Return",
+  True: "True",
+  False: "False",
 } as const;
 
 type TokenType = (typeof TokenType)[keyof typeof TokenType];
@@ -32,6 +39,11 @@ type TokenType = (typeof TokenType)[keyof typeof TokenType];
 const Keywords = {
   fn: TokenType.Function,
   let: TokenType.Let,
+  if: TokenType.If,
+  else: TokenType.Else,
+  return: TokenType.Return,
+  true: TokenType.True,
+  false: TokenType.False,
 } as const;
 
 export type Token = {

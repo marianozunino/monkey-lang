@@ -30,7 +30,20 @@ export class Lexer {
 
     switch (this.ch) {
       case "=":
-        token = createToken(TokenType.Assign, this.ch);
+        if (this.peekChar() === TokenType.Assign) {
+          this.readChar();
+          token = createToken(TokenType.Equal, TokenType.Equal);
+        } else {
+          token = createToken(TokenType.Assign, this.ch);
+        }
+        break;
+      case "!":
+        if (this.peekChar() === TokenType.Assign) {
+          this.readChar();
+          token = createToken(TokenType.NotEqual, TokenType.NotEqual);
+        } else {
+          token = createToken(TokenType.Bang, this.ch);
+        }
         break;
       case ";":
         token = createToken(TokenType.Semicolon, this.ch);
@@ -49,9 +62,6 @@ export class Lexer {
         break;
       case "-":
         token = createToken(TokenType.Minus, this.ch);
-        break;
-      case "!":
-        token = createToken(TokenType.Bang, this.ch);
         break;
       case "/":
         token = createToken(TokenType.Slash, this.ch);
@@ -119,6 +129,14 @@ export class Lexer {
 
     this.position = this.readPosition;
     this.readPosition++;
+  }
+
+  private peekChar(): string {
+    if (this.readPosition >= this.input.length) {
+      return "\0";
+    } else {
+      return this.input[this.readPosition];
+    }
   }
 
   private consumeWhitespace(): void {

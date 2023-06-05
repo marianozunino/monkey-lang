@@ -110,4 +110,69 @@ let result = add(five, ten);
       expect(tok.literal).toBe(tt.expectedLiteral);
     });
   });
+
+  it("should tokenize if else return true false", () => {
+    const input = `if (5 < 10) {
+      return true;
+    } else {
+      return false;
+    }`;
+
+    const tests = [
+      { expectedType: TokenType.If, expectedLiteral: "if" },
+      { expectedType: TokenType.LParen, expectedLiteral: "(" },
+      { expectedType: TokenType.Int, expectedLiteral: "5" },
+      { expectedType: TokenType.LT, expectedLiteral: "<" },
+      { expectedType: TokenType.Int, expectedLiteral: "10" },
+      { expectedType: TokenType.RParen, expectedLiteral: ")" },
+      { expectedType: TokenType.LBrace, expectedLiteral: "{" },
+      { expectedType: TokenType.Return, expectedLiteral: "return" },
+      { expectedType: TokenType.True, expectedLiteral: "true" },
+      { expectedType: TokenType.Semicolon, expectedLiteral: ";" },
+      { expectedType: TokenType.RBrace, expectedLiteral: "}" },
+      { expectedType: TokenType.Else, expectedLiteral: "else" },
+      { expectedType: TokenType.LBrace, expectedLiteral: "{" },
+      { expectedType: TokenType.Return, expectedLiteral: "return" },
+      { expectedType: TokenType.False, expectedLiteral: "false" },
+      { expectedType: TokenType.Semicolon, expectedLiteral: ";" },
+      { expectedType: TokenType.RBrace, expectedLiteral: "}" },
+    ];
+
+    const l = new Lexer(input);
+
+    tests.forEach((tt) => {
+      const tok = l.nextToken();
+      expect(tok.type).toBe(tt.expectedType);
+      expect(tok.literal).toBe(tt.expectedLiteral);
+    });
+  });
+
+  it("should support composed tokens (== !=)", () => {
+    const input = `if (5 == 10) {
+      return != true;
+    }`;
+
+    const tests = [
+      { expectedType: TokenType.If, expectedLiteral: "if" },
+      { expectedType: TokenType.LParen, expectedLiteral: "(" },
+      { expectedType: TokenType.Int, expectedLiteral: "5" },
+      { expectedType: TokenType.Equal, expectedLiteral: "==" },
+      { expectedType: TokenType.Int, expectedLiteral: "10" },
+      { expectedType: TokenType.RParen, expectedLiteral: ")" },
+      { expectedType: TokenType.LBrace, expectedLiteral: "{" },
+      { expectedType: TokenType.Return, expectedLiteral: "return" },
+      { expectedType: TokenType.NotEqual, expectedLiteral: "!=" },
+      { expectedType: TokenType.True, expectedLiteral: "true" },
+      { expectedType: TokenType.Semicolon, expectedLiteral: ";" },
+      { expectedType: TokenType.RBrace, expectedLiteral: "}" },
+    ];
+
+    const l = new Lexer(input);
+
+    tests.forEach((tt) => {
+      const tok = l.nextToken();
+      expect(tok.type).toBe(tt.expectedType);
+      expect(tok.literal).toBe(tt.expectedLiteral);
+    });
+  });
 });
