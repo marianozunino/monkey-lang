@@ -1,12 +1,4 @@
-import {
-  Token,
-  TokenType,
-  createToken,
-  isDigit,
-  isLetter,
-  isWhitespace,
-  lookupIdent,
-} from "./token";
+import { Token, TokenType, createToken, isDigit, isLetter, isWhitespace, lookupIdent } from './token';
 
 export class Lexer {
   private input: string;
@@ -18,7 +10,7 @@ export class Lexer {
     this.input = input;
     this.position = 0;
     this.readPosition = 0;
-    this.ch = "";
+    this.ch = '';
     this.readChar();
   }
 
@@ -29,7 +21,7 @@ export class Lexer {
     this.consumeWhitespace();
 
     switch (this.ch) {
-      case "=":
+      case '=':
         if (this.peekChar() === TokenType.Assign) {
           this.readChar();
           token = createToken(TokenType.Equal, TokenType.Equal);
@@ -37,7 +29,7 @@ export class Lexer {
           token = createToken(TokenType.Assign, this.ch);
         }
         break;
-      case "!":
+      case '!':
         if (this.peekChar() === TokenType.Assign) {
           this.readChar();
           token = createToken(TokenType.NotEqual, TokenType.NotEqual);
@@ -45,44 +37,44 @@ export class Lexer {
           token = createToken(TokenType.Bang, this.ch);
         }
         break;
-      case ";":
+      case ';':
         token = createToken(TokenType.Semicolon, this.ch);
         break;
-      case "(":
+      case '(':
         token = createToken(TokenType.LParen, this.ch);
         break;
-      case ")":
+      case ')':
         token = createToken(TokenType.RParen, this.ch);
         break;
-      case ",":
+      case ',':
         token = createToken(TokenType.Comma, this.ch);
         break;
-      case "+":
+      case '+':
         token = createToken(TokenType.Plus, this.ch);
         break;
-      case "-":
+      case '-':
         token = createToken(TokenType.Minus, this.ch);
         break;
-      case "/":
+      case '/':
         token = createToken(TokenType.Slash, this.ch);
         break;
-      case "*":
+      case '*':
         token = createToken(TokenType.Asterisk, this.ch);
         break;
-      case "<":
+      case '<':
         token = createToken(TokenType.LT, this.ch);
         break;
-      case ">":
+      case '>':
         token = createToken(TokenType.GT, this.ch);
         break;
-      case "{":
+      case '{':
         token = createToken(TokenType.LBrace, this.ch);
         break;
-      case "}":
+      case '}':
         token = createToken(TokenType.RBrace, this.ch);
         break;
-      case "\0":
-        token = createToken(TokenType.EOF, "");
+      case '\0':
+        token = createToken(TokenType.EOF, '');
         break;
       default:
         if (isLetter(this.ch)) {
@@ -122,7 +114,7 @@ export class Lexer {
 
   private readChar(): void {
     if (this.readPosition >= this.input.length) {
-      this.ch = "\0";
+      this.ch = '\0';
     } else {
       this.ch = this.input[this.readPosition];
     }
@@ -133,7 +125,7 @@ export class Lexer {
 
   private peekChar(): string {
     if (this.readPosition >= this.input.length) {
-      return "\0";
+      return '\0';
     } else {
       return this.input[this.readPosition];
     }

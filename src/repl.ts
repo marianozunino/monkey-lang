@@ -1,17 +1,17 @@
-import * as readline from "node:readline/promises";
+import * as readline from 'node:readline/promises';
 
-import { stdin as input, stdout as output } from "node:process";
-import { Lexer } from "./lexer";
-import { TokenType } from "./token";
+import { stdin as input, stdout as output } from 'node:process';
+import { Lexer } from './lexer';
+import { TokenType } from './token';
 
 const rl = readline.createInterface({ input, output });
 
 async function main() {
-  rl.write("Welcome to the Monkey REPL. Type exit to exit\n");
+  rl.write('Welcome to the Monkey REPL. Type exit to exit\n');
   while (true) {
-    const input = await rl.question(">> ");
+    const input = await rl.question('>> ');
 
-    if (input === "exit") {
+    if (input === 'exit') {
       rl.close();
       return;
     }

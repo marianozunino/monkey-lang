@@ -1,37 +1,37 @@
 export const TokenType = {
-  Illigal: "Illigal",
-  EOF: "EOF",
+  Illegal: 'Illegal',
+  EOF: 'EOF',
 
-  Ident: "Ident",
-  Int: "Int",
+  Ident: 'Ident',
+  Int: 'Int',
 
-  Assign: "=",
-  Plus: "+",
-  Minus: "-",
-  Bang: "!",
-  Asterisk: "*",
-  Slash: "/",
+  Assign: '=',
+  Plus: '+',
+  Minus: '-',
+  Bang: '!',
+  Asterisk: '*',
+  Slash: '/',
 
-  LT: "<",
-  GT: ">",
-  Equal: "==",
-  NotEqual: "!=",
+  LT: '<',
+  GT: '>',
+  Equal: '==',
+  NotEqual: '!=',
 
-  Comma: ",",
-  Semicolon: ";",
+  Comma: ',',
+  Semicolon: ';',
 
-  LParen: "(",
-  RParen: ")",
-  LBrace: "{",
-  RBrace: "}",
+  LParen: '(',
+  RParen: ')',
+  LBrace: '{',
+  RBrace: '}',
 
-  Function: "Function",
-  Let: "Let",
-  If: "If",
-  Else: "Else",
-  Return: "Return",
-  True: "True",
-  False: "False",
+  Function: 'Function',
+  Let: 'Let',
+  If: 'If',
+  Else: 'Else',
+  Return: 'Return',
+  True: 'True',
+  False: 'False',
 } as const;
 
 type TokenType = (typeof TokenType)[keyof typeof TokenType];
@@ -62,13 +62,13 @@ export function lookupIdent(ident: string): TokenType {
   return TokenType.Ident;
 }
 
-const a = "a".charCodeAt(0);
-const z = "z".charCodeAt(0);
-const A = "A".charCodeAt(0);
-const Z = "Z".charCodeAt(0);
-const _ = "_".charCodeAt(0);
-const _0 = "0".charCodeAt(0);
-const _9 = "9".charCodeAt(0);
+const a = 'a'.charCodeAt(0);
+const z = 'z'.charCodeAt(0);
+const A = 'A'.charCodeAt(0);
+const Z = 'Z'.charCodeAt(0);
+const _ = '_'.charCodeAt(0);
+const _0 = '0'.charCodeAt(0);
+const _9 = '9'.charCodeAt(0);
 
 export function isLetter(character: string): boolean {
   const char = character.charCodeAt(0);
@@ -76,12 +76,7 @@ export function isLetter(character: string): boolean {
 }
 
 export function isWhitespace(character: string): boolean {
-  return (
-    character === " " ||
-    character === "\t" ||
-    character === "\n" ||
-    character === "\r"
-  );
+  return character === ' ' || character === '\t' || character === '\n' || character === '\r';
 }
 
 export function isDigit(character: string): boolean {
