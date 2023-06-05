@@ -87,4 +87,27 @@ let result = add(five, ten);
 
     expect(l.nextToken().type).toBe(TokenType.EOF);
   });
+
+  it("should tokenize !-+/*5;<>", () => {
+    const input = `!-+/*5;<>`;
+    const tests = [
+      { expectedType: TokenType.Bang, expectedLiteral: "!" },
+      { expectedType: TokenType.Minus, expectedLiteral: "-" },
+      { expectedType: TokenType.Plus, expectedLiteral: "+" },
+      { expectedType: TokenType.Slash, expectedLiteral: "/" },
+      { expectedType: TokenType.Asterisk, expectedLiteral: "*" },
+      { expectedType: TokenType.Int, expectedLiteral: "5" },
+      { expectedType: TokenType.Semicolon, expectedLiteral: ";" },
+      { expectedType: TokenType.LT, expectedLiteral: "<" },
+      { expectedType: TokenType.GT, expectedLiteral: ">" },
+    ];
+
+    const l = new Lexer(input);
+
+    tests.forEach((tt) => {
+      const tok = l.nextToken();
+      expect(tok.type).toBe(tt.expectedType);
+      expect(tok.literal).toBe(tt.expectedLiteral);
+    });
+  });
 });

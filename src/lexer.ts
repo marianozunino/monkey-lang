@@ -47,6 +47,24 @@ export class Lexer {
       case "+":
         token = createToken(TokenType.Plus, this.ch);
         break;
+      case "-":
+        token = createToken(TokenType.Minus, this.ch);
+        break;
+      case "!":
+        token = createToken(TokenType.Bang, this.ch);
+        break;
+      case "/":
+        token = createToken(TokenType.Slash, this.ch);
+        break;
+      case "*":
+        token = createToken(TokenType.Asterisk, this.ch);
+        break;
+      case "<":
+        token = createToken(TokenType.LT, this.ch);
+        break;
+      case ">":
+        token = createToken(TokenType.GT, this.ch);
+        break;
       case "{":
         token = createToken(TokenType.LBrace, this.ch);
         break;

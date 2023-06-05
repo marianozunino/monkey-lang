@@ -7,6 +7,13 @@ export const TokenType = {
 
   Assign: "=",
   Plus: "+",
+  Minus: "-",
+  Bang: "!",
+  Asterisk: "*",
+  Slash: "/",
+
+  LT: "<",
+  GT: ">",
 
   Comma: ",",
   Semicolon: ";",
@@ -20,7 +27,7 @@ export const TokenType = {
   Let: "Let",
 } as const;
 
-type TokenType = typeof TokenType[keyof typeof TokenType];
+type TokenType = (typeof TokenType)[keyof typeof TokenType];
 
 const Keywords = {
   fn: TokenType.Function,
