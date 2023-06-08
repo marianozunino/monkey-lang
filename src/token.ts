@@ -1,65 +1,63 @@
-export const TokenType = {
-  Illegal: 'Illegal',
-  EOF: 'EOF',
+export enum TokenKind {
+  Illegal = 'Illegal',
+  EOF = 'EOF',
 
-  Ident: 'Ident',
-  Int: 'Int',
+  Ident = 'Ident',
+  Int = 'Int',
 
-  Assign: '=',
-  Plus: '+',
-  Minus: '-',
-  Bang: '!',
-  Asterisk: '*',
-  Slash: '/',
+  Assign = '=',
+  Plus = '+',
+  Minus = '-',
+  Bang = '!',
+  Asterisk = '*',
+  Slash = '/',
 
-  LT: '<',
-  GT: '>',
-  Equal: '==',
-  NotEqual: '!=',
+  LT = '<',
+  GT = '>',
+  Equal = '==',
+  NotEqual = '!=',
 
-  Comma: ',',
-  Semicolon: ';',
+  Comma = ',',
+  Semicolon = ';',
 
-  LParen: '(',
-  RParen: ')',
-  LBrace: '{',
-  RBrace: '}',
+  LParen = '(',
+  RParen = ')',
+  LBrace = '{',
+  RBrace = '}',
 
-  Function: 'Function',
-  Let: 'Let',
-  If: 'If',
-  Else: 'Else',
-  Return: 'Return',
-  True: 'True',
-  False: 'False',
-} as const;
-
-type TokenType = (typeof TokenType)[keyof typeof TokenType];
+  Function = 'Function',
+  Let = 'Let',
+  If = 'If',
+  Else = 'Else',
+  Return = 'Return',
+  True = 'True',
+  False = 'False',
+}
 
 const Keywords = {
-  fn: TokenType.Function,
-  let: TokenType.Let,
-  if: TokenType.If,
-  else: TokenType.Else,
-  return: TokenType.Return,
-  true: TokenType.True,
-  false: TokenType.False,
+  fn: TokenKind.Function,
+  let: TokenKind.Let,
+  if: TokenKind.If,
+  else: TokenKind.Else,
+  true: TokenKind.True,
+  false: TokenKind.False,
+  return: TokenKind.Return,
 } as const;
 
 export type Token = {
-  type: TokenType;
+  kind: TokenKind;
   literal: string;
 };
 
-export function createToken(type: TokenType, literal: string): Token {
-  return { type, literal };
+export function createToken(type: TokenKind, literal: string): Token {
+  return { kind: type, literal };
 }
 
-export function lookupIdent(ident: string): TokenType {
+export function lookupIdent(ident: string): TokenKind {
   if (ident in Keywords) {
     return Keywords[ident as keyof typeof Keywords];
   }
-  return TokenType.Ident;
+  return TokenKind.Ident;
 }
 
 const a = 'a'.charCodeAt(0);

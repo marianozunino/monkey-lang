@@ -2,7 +2,7 @@ import * as readline from 'node:readline/promises';
 
 import { stdin as input, stdout as output } from 'node:process';
 import { Lexer } from './lexer';
-import { TokenType } from './token';
+import { TokenKind } from './token';
 
 const rl = readline.createInterface({ input, output });
 
@@ -17,7 +17,7 @@ async function main() {
     }
     const l = new Lexer(input);
     let token = l.nextToken();
-    while (token.type != TokenType.EOF) {
+    while (token.kind != TokenKind.EOF) {
       output.write(`${JSON.stringify(token)}\n`);
       token = l.nextToken();
     }

@@ -1,4 +1,4 @@
-import { Token, TokenType, createToken, isDigit, isLetter, isWhitespace, lookupIdent } from './token';
+import { Token, TokenKind, createToken, isDigit, isLetter, isWhitespace, lookupIdent } from './token';
 
 export class Lexer {
   private input: string;
@@ -22,70 +22,70 @@ export class Lexer {
 
     switch (this.ch) {
       case '=':
-        if (this.peekChar() === TokenType.Assign) {
+        if (this.peekChar() === TokenKind.Assign) {
           this.readChar();
-          token = createToken(TokenType.Equal, TokenType.Equal);
+          token = createToken(TokenKind.Equal, TokenKind.Equal);
         } else {
-          token = createToken(TokenType.Assign, this.ch);
+          token = createToken(TokenKind.Assign, this.ch);
         }
         break;
       case '!':
-        if (this.peekChar() === TokenType.Assign) {
+        if (this.peekChar() === TokenKind.Assign) {
           this.readChar();
-          token = createToken(TokenType.NotEqual, TokenType.NotEqual);
+          token = createToken(TokenKind.NotEqual, TokenKind.NotEqual);
         } else {
-          token = createToken(TokenType.Bang, this.ch);
+          token = createToken(TokenKind.Bang, this.ch);
         }
         break;
       case ';':
-        token = createToken(TokenType.Semicolon, this.ch);
+        token = createToken(TokenKind.Semicolon, this.ch);
         break;
       case '(':
-        token = createToken(TokenType.LParen, this.ch);
+        token = createToken(TokenKind.LParen, this.ch);
         break;
       case ')':
-        token = createToken(TokenType.RParen, this.ch);
+        token = createToken(TokenKind.RParen, this.ch);
         break;
       case ',':
-        token = createToken(TokenType.Comma, this.ch);
+        token = createToken(TokenKind.Comma, this.ch);
         break;
       case '+':
-        token = createToken(TokenType.Plus, this.ch);
+        token = createToken(TokenKind.Plus, this.ch);
         break;
       case '-':
-        token = createToken(TokenType.Minus, this.ch);
+        token = createToken(TokenKind.Minus, this.ch);
         break;
       case '/':
-        token = createToken(TokenType.Slash, this.ch);
+        token = createToken(TokenKind.Slash, this.ch);
         break;
       case '*':
-        token = createToken(TokenType.Asterisk, this.ch);
+        token = createToken(TokenKind.Asterisk, this.ch);
         break;
       case '<':
-        token = createToken(TokenType.LT, this.ch);
+        token = createToken(TokenKind.LT, this.ch);
         break;
       case '>':
-        token = createToken(TokenType.GT, this.ch);
+        token = createToken(TokenKind.GT, this.ch);
         break;
       case '{':
-        token = createToken(TokenType.LBrace, this.ch);
+        token = createToken(TokenKind.LBrace, this.ch);
         break;
       case '}':
-        token = createToken(TokenType.RBrace, this.ch);
+        token = createToken(TokenKind.RBrace, this.ch);
         break;
       case '\0':
-        token = createToken(TokenType.EOF, '');
+        token = createToken(TokenKind.EOF, '');
         break;
       default:
         if (isLetter(this.ch)) {
           const literal = this.readIdentifier();
-          const type = lookupIdent(literal as keyof typeof TokenType);
+          const type = lookupIdent(literal as keyof typeof TokenKind);
           return createToken(type, literal);
         } else if (isDigit(this.ch)) {
           const literal = this.readNumber();
-          return createToken(TokenType.Int, literal);
+          return createToken(TokenKind.Int, literal);
         } else {
-          return createToken(TokenType.Illigal, this.ch);
+          return createToken(TokenKind.Illegal, this.ch);
         }
     }
 

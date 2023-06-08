@@ -1,26 +1,26 @@
 import { describe, expect, it } from 'vitest';
 import { Lexer } from './lexer';
-import { TokenType } from './token';
+import { TokenKind } from './token';
 
 describe('Lexer', () => {
   it('should tokenize =+(){},;', () => {
     const input = `=+(){},;`;
     const tests = [
-      { expectedType: TokenType.Assign, expectedLiteral: '=' },
-      { expectedType: TokenType.Plus, expectedLiteral: '+' },
-      { expectedType: TokenType.LParen, expectedLiteral: '(' },
-      { expectedType: TokenType.RParen, expectedLiteral: ')' },
-      { expectedType: TokenType.LBrace, expectedLiteral: '{' },
-      { expectedType: TokenType.RBrace, expectedLiteral: '}' },
-      { expectedType: TokenType.Comma, expectedLiteral: ',' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.Assign, expectedLiteral: '=' },
+      { expectedType: TokenKind.Plus, expectedLiteral: '+' },
+      { expectedType: TokenKind.LParen, expectedLiteral: '(' },
+      { expectedType: TokenKind.RParen, expectedLiteral: ')' },
+      { expectedType: TokenKind.LBrace, expectedLiteral: '{' },
+      { expectedType: TokenKind.RBrace, expectedLiteral: '}' },
+      { expectedType: TokenKind.Comma, expectedLiteral: ',' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
     ];
 
     const l = new Lexer(input);
 
     tests.forEach((tt) => {
       const tok = l.nextToken();
-      expect(tok.type).toBe(tt.expectedType);
+      expect(tok.kind).toBe(tt.expectedType);
       expect(tok.literal).toBe(tt.expectedLiteral);
     });
   });
@@ -35,42 +35,42 @@ let result = add(five, ten);
 `;
 
     const tests = [
-      { expectedType: TokenType.Let, expectedLiteral: 'let' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'five' },
-      { expectedType: TokenType.Assign, expectedLiteral: '=' },
-      { expectedType: TokenType.Int, expectedLiteral: '5' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
-      { expectedType: TokenType.Let, expectedLiteral: 'let' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'ten' },
-      { expectedType: TokenType.Assign, expectedLiteral: '=' },
-      { expectedType: TokenType.Int, expectedLiteral: '10' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
-      { expectedType: TokenType.Let, expectedLiteral: 'let' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'add' },
-      { expectedType: TokenType.Assign, expectedLiteral: '=' },
-      { expectedType: TokenType.Function, expectedLiteral: 'fn' },
-      { expectedType: TokenType.LParen, expectedLiteral: '(' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'x' },
-      { expectedType: TokenType.Comma, expectedLiteral: ',' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'y' },
-      { expectedType: TokenType.RParen, expectedLiteral: ')' },
-      { expectedType: TokenType.LBrace, expectedLiteral: '{' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'x' },
-      { expectedType: TokenType.Plus, expectedLiteral: '+' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'y' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
-      { expectedType: TokenType.RBrace, expectedLiteral: '}' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
-      { expectedType: TokenType.Let, expectedLiteral: 'let' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'result' },
-      { expectedType: TokenType.Assign, expectedLiteral: '=' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'add' },
-      { expectedType: TokenType.LParen, expectedLiteral: '(' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'five' },
-      { expectedType: TokenType.Comma, expectedLiteral: ',' },
-      { expectedType: TokenType.Ident, expectedLiteral: 'ten' },
-      { expectedType: TokenType.RParen, expectedLiteral: ')' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.Let, expectedLiteral: 'let' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'five' },
+      { expectedType: TokenKind.Assign, expectedLiteral: '=' },
+      { expectedType: TokenKind.Int, expectedLiteral: '5' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.Let, expectedLiteral: 'let' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'ten' },
+      { expectedType: TokenKind.Assign, expectedLiteral: '=' },
+      { expectedType: TokenKind.Int, expectedLiteral: '10' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.Let, expectedLiteral: 'let' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'add' },
+      { expectedType: TokenKind.Assign, expectedLiteral: '=' },
+      { expectedType: TokenKind.Function, expectedLiteral: 'fn' },
+      { expectedType: TokenKind.LParen, expectedLiteral: '(' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'x' },
+      { expectedType: TokenKind.Comma, expectedLiteral: ',' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'y' },
+      { expectedType: TokenKind.RParen, expectedLiteral: ')' },
+      { expectedType: TokenKind.LBrace, expectedLiteral: '{' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'x' },
+      { expectedType: TokenKind.Plus, expectedLiteral: '+' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'y' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.RBrace, expectedLiteral: '}' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.Let, expectedLiteral: 'let' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'result' },
+      { expectedType: TokenKind.Assign, expectedLiteral: '=' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'add' },
+      { expectedType: TokenKind.LParen, expectedLiteral: '(' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'five' },
+      { expectedType: TokenKind.Comma, expectedLiteral: ',' },
+      { expectedType: TokenKind.Ident, expectedLiteral: 'ten' },
+      { expectedType: TokenKind.RParen, expectedLiteral: ')' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
     ];
 
     const l = new Lexer(input);
@@ -78,32 +78,32 @@ let result = add(five, ten);
     tests.forEach((tt) => {
       const tok = l.nextToken();
       expect(tok, `token ${tt.expectedLiteral} is not ${tt.expectedType}`).not.toBeUndefined();
-      expect(tok.type).toBe(tt.expectedType);
+      expect(tok.kind).toBe(tt.expectedType);
       expect(tok.literal).toBe(tt.expectedLiteral);
     });
 
-    expect(l.nextToken().type).toBe(TokenType.EOF);
+    expect(l.nextToken().kind).toBe(TokenKind.EOF);
   });
 
   it('should tokenize !-+/*5;<>', () => {
     const input = `!-+/*5;<>`;
     const tests = [
-      { expectedType: TokenType.Bang, expectedLiteral: '!' },
-      { expectedType: TokenType.Minus, expectedLiteral: '-' },
-      { expectedType: TokenType.Plus, expectedLiteral: '+' },
-      { expectedType: TokenType.Slash, expectedLiteral: '/' },
-      { expectedType: TokenType.Asterisk, expectedLiteral: '*' },
-      { expectedType: TokenType.Int, expectedLiteral: '5' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
-      { expectedType: TokenType.LT, expectedLiteral: '<' },
-      { expectedType: TokenType.GT, expectedLiteral: '>' },
+      { expectedType: TokenKind.Bang, expectedLiteral: '!' },
+      { expectedType: TokenKind.Minus, expectedLiteral: '-' },
+      { expectedType: TokenKind.Plus, expectedLiteral: '+' },
+      { expectedType: TokenKind.Slash, expectedLiteral: '/' },
+      { expectedType: TokenKind.Asterisk, expectedLiteral: '*' },
+      { expectedType: TokenKind.Int, expectedLiteral: '5' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.LT, expectedLiteral: '<' },
+      { expectedType: TokenKind.GT, expectedLiteral: '>' },
     ];
 
     const l = new Lexer(input);
 
     tests.forEach((tt) => {
       const tok = l.nextToken();
-      expect(tok.type).toBe(tt.expectedType);
+      expect(tok.kind).toBe(tt.expectedType);
       expect(tok.literal).toBe(tt.expectedLiteral);
     });
   });
@@ -116,30 +116,30 @@ let result = add(five, ten);
     }`;
 
     const tests = [
-      { expectedType: TokenType.If, expectedLiteral: 'if' },
-      { expectedType: TokenType.LParen, expectedLiteral: '(' },
-      { expectedType: TokenType.Int, expectedLiteral: '5' },
-      { expectedType: TokenType.LT, expectedLiteral: '<' },
-      { expectedType: TokenType.Int, expectedLiteral: '10' },
-      { expectedType: TokenType.RParen, expectedLiteral: ')' },
-      { expectedType: TokenType.LBrace, expectedLiteral: '{' },
-      { expectedType: TokenType.Return, expectedLiteral: 'return' },
-      { expectedType: TokenType.True, expectedLiteral: 'true' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
-      { expectedType: TokenType.RBrace, expectedLiteral: '}' },
-      { expectedType: TokenType.Else, expectedLiteral: 'else' },
-      { expectedType: TokenType.LBrace, expectedLiteral: '{' },
-      { expectedType: TokenType.Return, expectedLiteral: 'return' },
-      { expectedType: TokenType.False, expectedLiteral: 'false' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
-      { expectedType: TokenType.RBrace, expectedLiteral: '}' },
+      { expectedType: TokenKind.If, expectedLiteral: 'if' },
+      { expectedType: TokenKind.LParen, expectedLiteral: '(' },
+      { expectedType: TokenKind.Int, expectedLiteral: '5' },
+      { expectedType: TokenKind.LT, expectedLiteral: '<' },
+      { expectedType: TokenKind.Int, expectedLiteral: '10' },
+      { expectedType: TokenKind.RParen, expectedLiteral: ')' },
+      { expectedType: TokenKind.LBrace, expectedLiteral: '{' },
+      { expectedType: TokenKind.Return, expectedLiteral: 'return' },
+      { expectedType: TokenKind.True, expectedLiteral: 'true' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.RBrace, expectedLiteral: '}' },
+      { expectedType: TokenKind.Else, expectedLiteral: 'else' },
+      { expectedType: TokenKind.LBrace, expectedLiteral: '{' },
+      { expectedType: TokenKind.Return, expectedLiteral: 'return' },
+      { expectedType: TokenKind.False, expectedLiteral: 'false' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.RBrace, expectedLiteral: '}' },
     ];
 
     const l = new Lexer(input);
 
     tests.forEach((tt) => {
       const tok = l.nextToken();
-      expect(tok.type).toBe(tt.expectedType);
+      expect(tok.kind).toBe(tt.expectedType);
       expect(tok.literal).toBe(tt.expectedLiteral);
     });
   });
@@ -150,25 +150,25 @@ let result = add(five, ten);
     }`;
 
     const tests = [
-      { expectedType: TokenType.If, expectedLiteral: 'if' },
-      { expectedType: TokenType.LParen, expectedLiteral: '(' },
-      { expectedType: TokenType.Int, expectedLiteral: '5' },
-      { expectedType: TokenType.Equal, expectedLiteral: '==' },
-      { expectedType: TokenType.Int, expectedLiteral: '10' },
-      { expectedType: TokenType.RParen, expectedLiteral: ')' },
-      { expectedType: TokenType.LBrace, expectedLiteral: '{' },
-      { expectedType: TokenType.Return, expectedLiteral: 'return' },
-      { expectedType: TokenType.NotEqual, expectedLiteral: '!=' },
-      { expectedType: TokenType.True, expectedLiteral: 'true' },
-      { expectedType: TokenType.Semicolon, expectedLiteral: ';' },
-      { expectedType: TokenType.RBrace, expectedLiteral: '}' },
+      { expectedType: TokenKind.If, expectedLiteral: 'if' },
+      { expectedType: TokenKind.LParen, expectedLiteral: '(' },
+      { expectedType: TokenKind.Int, expectedLiteral: '5' },
+      { expectedType: TokenKind.Equal, expectedLiteral: '==' },
+      { expectedType: TokenKind.Int, expectedLiteral: '10' },
+      { expectedType: TokenKind.RParen, expectedLiteral: ')' },
+      { expectedType: TokenKind.LBrace, expectedLiteral: '{' },
+      { expectedType: TokenKind.Return, expectedLiteral: 'return' },
+      { expectedType: TokenKind.NotEqual, expectedLiteral: '!=' },
+      { expectedType: TokenKind.True, expectedLiteral: 'true' },
+      { expectedType: TokenKind.Semicolon, expectedLiteral: ';' },
+      { expectedType: TokenKind.RBrace, expectedLiteral: '}' },
     ];
 
     const l = new Lexer(input);
 
     tests.forEach((tt) => {
       const tok = l.nextToken();
-      expect(tok.type).toBe(tt.expectedType);
+      expect(tok.kind).toBe(tt.expectedType);
       expect(tok.literal).toBe(tt.expectedLiteral);
     });
   });
