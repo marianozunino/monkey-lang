@@ -1,9 +1,5 @@
 package token
 
-import (
-	"fmt"
-)
-
 type TokenType string
 
 type Token struct {
@@ -13,7 +9,7 @@ type Token struct {
 
 const (
 	ILLEGAL = "ILLEGAL"
-	EOF     = "EOF"
+	EOF     = "\x00"
 
 	// Identifier + Literal
 	IDENT = "IDENT"
@@ -33,12 +29,18 @@ const (
 	RBRACE = "}"
 
 	// Keywords
-	FUNCTION = "FUNCTION"
-	LET      = "LET"
+	FUNCTION = "fn"
+	LET      = "let"
 )
 
-func foo() {
-	foo := "bar"
+var keywords = map[string]TokenType{
+	"fn":  FUNCTION,
+	"let": LET,
+}
 
-	fmt.Printf("foo: %s\n", foo)
+func LookupIdent(ident string) TokenType {
+	if tkn, ok := keywords[ident]; ok {
+		return tkn
+	}
+	return IDENT
 }

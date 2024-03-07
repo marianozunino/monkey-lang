@@ -1,7 +1,6 @@
 package lexer
 
 import (
-	"github.com/davecgh/go-spew/spew"
 	"github.com/marianozunino/monkey-lang/token"
 )
 
@@ -19,7 +18,6 @@ func New(input string) *Lexer {
 }
 
 func (l *Lexer) readChar() {
-	spew.Dump(string(l.ch))
 	if l.readPos >= len(l.input) {
 		l.ch = 0 // EOF?
 	} else {
@@ -30,35 +28,76 @@ func (l *Lexer) readChar() {
 }
 
 func (l *Lexer) NextToken() token.Token {
-	defer l.readChar() // keep reading
+	l.consumeWhitespace()
+
+	var tkn token.Token
 
 	switch string(l.ch) {
-	case token.ASSIGN:
-		return newToken(token.ASSIGN, l.ch)
-	case token.COMMA:
-		return newToken(token.COMMA, l.ch)
-	case token.SEMICOLON:
-		return newToken(token.SEMICOLON, l.ch)
-	case token.LPAREN:
-		return newToken(token.LPAREN, l.ch)
-	case token.RPAREN:
-		return newToken(token.RPAREN, l.ch)
-	case token.LBRACE:
-		return newToken(token.LBRACE, l.ch)
-	case token.RBRACE:
-		return newToken(token.RBRACE, l.ch)
-	case token.PLUS:
-		return newToken(token.PLUS, l.ch)
-	case token.EOF:
-		return newToken(token.EOF, l.ch)
+
+	case token.ASSIGN,
+		token.COMMA,
+		token.SEMICOLON,
+		token.LPAREN,
+		token.RPAREN,
+		token.LBRACE,
+		token.RBRACE,
+		token.PLUS,
+		token.EOF:
+		tkn = newToken(token.TokenType(l.ch), string(l.ch))
 	default:
-		return newToken(token.EOF, l.ch)
+		if isLetter(l.ch) {
+			ident := l.readIdentifier()
+			return newToken(token.LookupIdent(ident), ident)
+		} else if isDigit(l.ch) {
+			number := l.readNumber()
+			return newToken(token.INT, number)
+		} else {
+			tkn = newToken(token.ILLEGAL, string(token.ILLEGAL))
+		}
+	}
+
+	l.readChar()
+
+	return tkn
+}
+
+func isLetter(ch byte) bool {
+	return ('A' <= ch && ch <= 'z') || ch == '_'
+}
+
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
+}
+
+func (l *Lexer) readNumber() string {
+	position := l.currentPos
+
+	for isDigit(l.ch) {
+		l.readChar()
+	}
+
+	return l.input[position:l.currentPos]
+}
+
+func (l *Lexer) readIdentifier() string {
+	position := l.currentPos
+
+	for isLetter(l.ch) {
+		l.readChar()
+	}
+
+	return l.input[position:l.currentPos]
+}
+
+func (l *Lexer) consumeWhitespace() {
+	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+		l.readChar()
 	}
 }
 
-func newToken(tknType token.TokenType, ch byte) token.Token {
+func newToken(tknType token.TokenType, literal string) token.Token {
 	return token.Token{
 		Type:    tknType,
-		Literal: string(ch),
+		Literal: literal,
 	}
 }
