@@ -13,8 +13,16 @@ let add = fn(x, y) {
   x+y;
 };
 let result = add(five, ten);
-	`
 
+!-/*5;
+5 < 10 > 5;
+
+if (5 < 10) {
+  return true;
+} else {
+  return false;
+}
+`
 	tests := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
@@ -58,6 +66,38 @@ let result = add(five, ten);
 		{token.IDENT, "ten"},
 		{token.RPAREN, token.RPAREN},
 		{token.SEMICOLON, token.SEMICOLON},
+
+		{token.BANG, token.BANG},
+		{token.MINUS, token.MINUS},
+		{token.SLASH, token.SLASH},
+		{token.ASTERISK, token.ASTERISK},
+		{token.INT, "5"},
+		{token.SEMICOLON, token.SEMICOLON},
+
+		{token.INT, "5"},
+		{token.LT, token.LT},
+		{token.INT, "10"},
+		{token.GT, token.GT},
+		{token.INT, "5"},
+		{token.SEMICOLON, token.SEMICOLON},
+
+		{token.IF, token.IF},
+		{token.LPAREN, token.LPAREN},
+		{token.INT, "5"},
+		{token.LT, token.LT},
+		{token.INT, "10"},
+		{token.RPAREN, token.RPAREN},
+		{token.LBRACE, token.LBRACE},
+		{token.RETURN, token.RETURN},
+		{token.TRUE, token.TRUE},
+		{token.SEMICOLON, token.SEMICOLON},
+		{token.RBRACE, token.RBRACE},
+		{token.ELSE, token.ELSE},
+		{token.LBRACE, token.LBRACE},
+		{token.RETURN, token.RETURN},
+		{token.FALSE, token.FALSE},
+		{token.SEMICOLON, token.SEMICOLON},
+		{token.RBRACE, token.RBRACE},
 
 		{token.EOF, token.EOF},
 	}

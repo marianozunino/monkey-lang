@@ -37,12 +37,23 @@ func (l *Lexer) NextToken() token.Token {
 	case token.ASSIGN,
 		token.COMMA,
 		token.SEMICOLON,
+
 		token.LPAREN,
 		token.RPAREN,
 		token.LBRACE,
 		token.RBRACE,
+
 		token.PLUS,
+		token.MINUS,
+		token.ASTERISK,
+		token.SLASH,
+
+		token.BANG,
+		token.GT,
+		token.LT,
+
 		token.EOF:
+
 		tkn = newToken(token.TokenType(l.ch), string(l.ch))
 	default:
 		if isLetter(l.ch) {
