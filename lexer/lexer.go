@@ -34,8 +34,7 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch string(l.ch) {
 
-	case token.ASSIGN,
-		token.COMMA,
+	case token.COMMA,
 		token.SEMICOLON,
 
 		token.LPAREN,
@@ -48,13 +47,26 @@ func (l *Lexer) NextToken() token.Token {
 		token.ASTERISK,
 		token.SLASH,
 
-		token.BANG,
 		token.GT,
 		token.LT,
 
 		token.EOF:
 
 		tkn = newToken(token.TokenType(l.ch), string(l.ch))
+	case token.BANG:
+		if l.peekChar() != '=' {
+			tkn = newToken(token.TokenType(l.ch), string(l.ch))
+		} else {
+			l.readChar()
+			tkn = newToken(token.TokenType(token.NOT_EQ), token.NOT_EQ)
+		}
+	case token.ASSIGN:
+		if l.peekChar() == '=' {
+			l.readChar()
+			tkn = newToken(token.TokenType(token.EQ), token.EQ)
+		} else {
+			tkn = newToken(token.TokenType(l.ch), string(l.ch))
+		}
 	default:
 		if isLetter(l.ch) {
 			ident := l.readIdentifier()
@@ -78,6 +90,14 @@ func isLetter(ch byte) bool {
 
 func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
+}
+
+func (l *Lexer) peekChar() byte {
+	if l.readPos >= len(l.input) {
+		return '\x00'
+	} else {
+		return l.input[l.readPos]
+	}
 }
 
 func (l *Lexer) readNumber() string {
