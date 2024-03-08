@@ -1,6 +1,10 @@
 package ast
 
-import "github.com/marianozunino/monkey-lang/token"
+import (
+	"bytes"
+
+	"github.com/marianozunino/monkey-lang/token"
+)
 
 type Node interface {
 	TokenLiteral() string
@@ -102,4 +106,24 @@ func (es *ExpressionStatement) String() string {
 		return es.Expression.String()
 	}
 	return ""
+}
+
+type PrefixExpression struct {
+	Token    token.Token // the first token of the expression
+	Operator string
+	Right    Expression
+}
+
+func (pe *PrefixExpression) expressionNode()      {}
+func (pe *PrefixExpression) TokenLiteral() string { return pe.Token.Literal }
+func (pe *PrefixExpression) String() string {
+	var out bytes.Buffer
+
+	// parentheses helps out to figure out the precedence
+	out.WriteString("(")
+	out.WriteString(pe.Operator)
+	out.WriteString(pe.Right.String())
+	out.WriteString(")")
+
+	return out.String()
 }
